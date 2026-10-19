@@ -1,27 +1,27 @@
-# Raspberry Pi Container Security Lab
+# Raspberry Pi Cloud Security Lab
 
-A homelab I'm building on a Raspberry Pi 4 to learn container and Kubernetes security properly. I set things up, deliberately break them the way real systems go wrong, then work out how to detect and fix them. It all runs on the Pi.
+A homelab I built on a Raspberry Pi 4 to learn container and Kubernetes security by doing. In each stage I set something up, broke it the way real systems get misconfigured, then worked out how to detect the problem and fix it. Everything runs on the Pi, so there are no cloud costs and nothing leaves my own network.
 
-It's built in stages. Each one adds a layer and has its own folder with the commands I ran and what I found.
+I built it in stages. Each one adds a security layer and has its own folder with the exact commands I ran, what I found, and how I fixed it.
 
 ## Stages
 
 **Stage 1, containers** (`stage1/`)
-Build a small container and harden it: run it as a non-root user, drop Linux capabilities, make the filesystem read-only. Then scan it with Trivy and work through what it finds, separating what can be fixed from what can't.
+I built a small container image and hardened it: ran it as a non-root user, dropped the Linux capabilities it didn't need, and made the filesystem read-only. I scanned it with Trivy, then worked through the findings and separated the ones worth fixing from the ones with no fix available.
 
 **Stage 2, Kubernetes** (`stage2/`)
-Stand up a k3s cluster and apply the core controls: RBAC to limit what each account can do, network policies to control what can talk to what, and Pod Security Standards to keep risky pods out.
+I deployed a k3s cluster and applied the main controls: RBAC to limit what each service account can do, network policies to control which pods can talk to each other, and Pod Security Standards to keep high-risk pods out.
 
 **Stage 3, detection and policy** (`stage3/`)
-The defender side. Falco to spot suspicious behaviour as it happens, Kyverno to block bad configs before they deploy, kube-bench to measure the cluster against a security benchmark, and image signing to prove images haven't been tampered with.
+The defensive side. I set up Falco to catch suspicious behaviour at runtime, Kyverno to block non-compliant configs before they deploy, kube-bench to check the cluster against the CIS benchmark, and image signing to confirm images haven't been tampered with.
 
 ## Setup
 
-Raspberry Pi 4 (4GB) running k3s on Raspberry Pi OS Lite (64-bit). 
+Raspberry Pi 4 (4GB) running k3s on Raspberry Pi OS Lite (64-bit). I run one stage at a time to fit the memory.
 
 ## What it shows
 
 - Container hardening and image scanning
-- Kubernetes security: RBAC, network policies, Pod Security
-- Runtime detection and policy as code
-- Reading and acting on vulnerability scans
+- Kubernetes security: RBAC, network policies, Pod Security Standards
+- Runtime threat detection and policy as code
+- Reading scan output and deciding what to fix first
